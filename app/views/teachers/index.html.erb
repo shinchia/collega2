@@ -1,0 +1,13 @@
+
+    <div class = "teacher_profile">
+    <h3>Teacher's profile</h3>
+
+    <% @teachers.each do |teacher| %>
+    <div class = "profile_zenntai">
+    <img src="/teacher_images/<%= "#{teacher.id}"%>.jpg">
+    <h4>【<%= link_to(teacher.name, "/teachers/#{teacher.id}") %>】</h4>
+    <h5><%= teacher.hitokoto%></h5>
+      </div>
+
+      <% end %>
+      </div>

@@ -1,0 +1,189 @@
+<div class="tab_wrap">
+  <input id="tab1" type="radio" name="tab_btn" checked>
+  <input id="tab2" type="radio" name="tab_btn">
+  <input id="tab3" type="radio" name="tab_btn">
+  <input id="tab4" type="radio" name="tab_btn">
+  <input id="tab5" type="radio" name="tab_btn">
+
+  <div class="tab_area">
+    <div class ="fix">
+    <label class="tab1_label" for="tab1">🎀</label>
+    <label class="tab2_label" for="tab2">📕</label>
+    <label class="tab3_label" for="tab3">👬</label>
+    <label class="tab4_label" for="tab4">🎥</label>
+    <label class="tab5_label" for="tab5">🗣</label>
+  </div>
+  </div>
+  <% current_user = User.find_by(id: session[:user_id]) %>
+  <% if current_user %>
+  <div class="panel_area">
+    <div id="panel1" class="tab_panel">
+      <% if flash[:notice] %>
+      <div class="flash">
+        <%= flash[:notice] %>
+      </div>
+      <% end %>
+      <div class = "ivent">
+      <h3>Ivents</h3>
+
+      </div>
+      <% @ivents.each do |ivent| %>
+      <div class = "toukou">
+        <div class = "profile">
+          <img src="/">
+          <p><%= link_to(ivent.content, "/ivents/#{ivent.id}") %></p>
+        </div>
+        <div class = "img">
+          <img src="/ivent_images/<%= "#{ivent.id}"%>.jpg">
+        </div>
+
+        <div class = "syousai">
+          <h4>【どんなイベント？】</h4>
+          <h5><%= ivent.summry%></h5>
+
+
+        </div>
+
+          </div>
+          <%end%>
+
+
+      </div>
+
+      <div id="panel2" class="tab_panel">
+        <% if flash[:notice] %>
+        <div class="flash">
+          <%= flash[:notice] %>
+        </div>
+        <% end %>
+        <div class = "ivent">
+        <h3>Blogs</h3>
+        </div>
+        <% @blogs.each do |blog| %>
+
+        <div class = "toukou">
+          <div class = "profile">
+            <img src="/">
+            <p><%= link_to(blog.content, "/blogs/#{blog.id}") %></p>
+          </div>
+          <div class = "img">
+            <img src="/blog_jpg/<%= "#{blog.id}"%>.jpg">
+          </div>
+
+          <div class = "syousai">
+            <h4>【ひとこと】</h4>
+            <h5><%= blog.summry%></h5>
+
+
+          </div>
+
+            </div>
+            <%end%>
+
+
+        </div>
+        <div id="panel3" class="tab_panel">
+          <% if flash[:notice] %>
+          <div class="flash">
+            <%= flash[:notice] %>
+          </div>
+          <% end %>
+          <div class = "ivent">
+          <h3>Contacts</h3>
+        </div>
+          <div class = "text_field">
+          <%= form_for @newTopic, :url => {:action => 'create'} do |f| %>
+            <%= f.text_field :title, :size=>"40x20" %>
+            <%= f.submit %>
+          <% end %>
+        </div>
+        <div class = "toukou_zenntai">
+          <% @topics.each do |topic| %>
+          <div class = "toukou">
+          <div class = "profile">
+            <img src="<%= "/user_images/#{@user.id}" %>.jpg">
+            <p><%= link_to(@user.name, "/users/#{@user.id}") %>さんが<br>Topicを作成しました。</p>
+          </div>
+          <div class = "syousai">
+            <h2>
+              <%= link_to topic.title, topics_show_path(topic.id),:style=>"color:gray;""text-decoration: none;"%>
+              <p><%= link_to '削除', topic_delete_path(topic.id), method: :delete, data: {confirm: "削除してもよろしいですか？"},:style=>"color:gray;""text-decoration: none;""float:right;" %></p>
+            </h2>
+          </div>
+          </div>
+          <% end %>
+        </div>
+      </div>
+        <div id="panel4" class="tab_panel">
+          <% if flash[:notice] %>
+          <div class="flash">
+            <%= flash[:notice] %>
+          </div>
+          <% end %>
+          <div class = "ivent">
+          <h3>Videos</h3>
+        </div>
+          <% @videos.each do |video| %>
+          <div class = "toukou">
+            <div class = "profile">
+              <img src="/">
+              <p><%= link_to(video.content, "/videos/#{video.id}") %></p>
+            </div>
+            <div class = "img">
+              <img src="/video_jpg/<%= "#{video.id}"%>.jpg">
+            </div>
+
+            <div class = "syousai">
+              <h4>【どんな講座？】</h4>
+              <h5><%= video.summry%></h5>
+
+
+            </div>
+
+              </div>
+              <%end%>
+          </div>
+          <div id="panel5" class="tab_panel">
+            <% if flash[:notice] %>
+            <div class="flash">
+              <%= flash[:notice] %>
+            </div>
+            <% end %>
+            <div class = "ivent">
+            <h3>Potes</h3>
+          </div>
+            <% @toukous.each do |toukou| %>
+            <div class = "toukou">
+              <div class = "profile">
+                <img src="<%= "/user_images/#{@user.id}" %>.jpg">
+                <p><%= link_to(@user.name, "/users/#{@user.id}") %>さん<br>が投稿しました。</p>
+              </div>
+              <div class = "img">
+                <img src="/toukou_images/<%= "#{toukou.id}"%>.jpg">
+              </div>
+
+              <div class = "syousai">
+                <h4>【ひとこと】</h4>
+                <h5><%= link_to(toukou.summry, "/toukous/#{toukou.id}") %></h5>
+
+
+              </div>
+
+                </div>
+                <%end%>
+
+            </div>
+
+    </div>
+    <% else %>
+    <% if flash[:notice] %>
+    <div class="flash_out">
+      <%= flash[:notice] %>
+    </div>
+    <% end %>
+    <div class = "syoki">
+    <h3><%= link_to("ログインをしてください。", "/login") %></h3>
+  </div>
+    <%end%>
+
+  </div>
